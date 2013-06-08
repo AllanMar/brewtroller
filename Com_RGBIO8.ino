@@ -121,6 +121,40 @@ void RGBIO8_Init() {
   // rgbio8s[1].assignPvOutputRecipe(2, 3, 1);
   //
   // Add your custom mappings below this line
+  
+    // Add your custom mappings below this line
+  //RGBIO INPUT 0, HLT
+  rgbio8s[0].assignHeatInput(0, 0);
+  rgbio8s[0].assignHeatOutputRecipe(0, 0, 0);
+  
+  //RGBIO8 INPUT 1, BK
+  rgbio8s[0].assignHeatInput(2, 1);
+  rgbio8s[0].assignHeatOutputRecipe(2, 1, 0);
+  
+  //RGBIO INPUT 2, PVOUT 2 -> EXHAUST FAN
+  rgbio8s[0].assignPvInput(2, 2);
+  rgbio8s[0].assignPvOutputRecipe(2, 2, 1);
+  
+  //RGBIO INPUT 3, PVOUT 1 - > PUMP 2
+  rgbio8s[0].assignPvInput(1, 3);
+  rgbio8s[0].assignPvOutputRecipe(1, 3, 1);
+  
+  //RGBIO INPUT 4, PVOUT 0 -> PUMP 1
+  rgbio8s[0].assignPvInput(0, 4);
+  rgbio8s[0].assignPvOutputRecipe(0, 4, 1);
+  
+  //Fix issue????
+  rgbio8s[0].assignPvInput(4, 6);
+  rgbio8s[0].assignPvOutputRecipe(4, 6, 1);
+  
+  //RGBIO INPUT 5, PVOUT 3 -> Water Valve
+  rgbio8s[0].assignPvInput(3, 5);
+  rgbio8s[0].assignPvOutputRecipe(3, 5, 1);
+  
+  //RGBIO INPUT 7, PVOUT 4 -> Elem Sel SW
+  rgbio8s[0].assignPvInput(4, 7);
+  rgbio8s[0].assignPvOutputRecipe(4, 7, 1);
+  
 }
 
 void RGBIO8_Update() {

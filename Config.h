@@ -210,8 +210,8 @@ static const byte TS = 1;
 // logic to be enabled during preheat. By default, a recipe's HLT Temp setting is used
 // during preheat.
 
-//#define SMART_HERMS_HLT
-#define MASH_HEAT_LOSS 0
+#define SMART_HERMS_HLT
+#define MASH_HEAT_LOSS 2
 #define HLT_MAX_TEMP 180
 //#define SMART_HERMS_PREHEAT
 //**********************************************************************************
@@ -303,7 +303,7 @@ static const byte TS = 1;
 //
 // LOG_INITSTATUS: Sets whether logging is enabled on bootup. Log status can be
 // toggled using the SET_LOGSTATUS command.
-#define LOG_INITSTATUS 1
+#define LOG_INITSTATUS 0
 
 
 //**********************************************************************************
@@ -323,7 +323,7 @@ static const byte TS = 1;
 // Show temperature and volume per kettle on the same display.  Every other update
 // interval the display will switch from temperature to volume.  Make sure that the
 // values in Com_BTPD.h use the same address per kettle for both volume and temperature.
-//#define BTPD_ALTERNATE_TEMP_VOLUME
+#define BTPD_ALTERNATE_TEMP_VOLUME
 
 //**********************************************************************************
 
@@ -493,8 +493,8 @@ static const byte TS = 1;
 // NOTE: Volume is in thousandths of a Gallons/Liters
 // USE CAUTION! TESTING REQUIRED.
 //
-//#define HLT_MIN_REFILL
-//#define HLT_MIN_REFILL_VOL 4000
+#define HLT_MIN_REFILL
+#define HLT_MIN_REFILL_VOL 8000
 //**********************************************************************************
 
 
@@ -623,7 +623,7 @@ static const byte TS = 1;
 //
 // Enables the RGBIO8 system.
 //
-//#define RGBIO8_ENABLE
+#define RGBIO8_ENABLE
 //
 // Enables the setup UI for the RGBIO8 board. This takes up quite a bit of code
 // space so it can be disabled once you have set up all of your boards. It is
