@@ -7,6 +7,15 @@
 #define SOFTSWITCH_ON 1
 #define SOFTSWITCH_AUTO 2
 
+//Element control SoftSwitch Output
+#define ELEMCONTROL_SOFTSW 7
+#define ELEMCONTROL_HLTOUT 8
+#define ELEMCONTROL_DUALOUT 9
+#define ELEMCONTROL_BKOUT 10
+
+#define ELEMCONTROL_HLTIN 0
+#define ELEMCONTROL_BKIN 2
+
 byte softSwitchPv[PVOUT_COUNT];
 byte softSwitchHeat[HEAT_OUTPUTS_COUNT];
 
@@ -249,6 +258,26 @@ void RGBIO8::update(void) {
         }
       }
     }
+  }
+    
+  // Handle Elem Control switch
+  int i = ELEMCONTROL_SOFTSW;
+  if (inputs_manual & (1 << i)) { //Switch Set to BK
+    softSwitchPv[ELEMCONTROL_HLTOUT] = SOFTSWITCH_OFF;
+    softSwitchPv[ELEMCONTROL_DUALOUT] = SOFTSWITCH_ON; 
+    softSwitchPv[ELEMCONTROL_BKOUT] = ((softSwitchHeat[ELEMCONTROL_BKIN] == SOFTSWITCH_ON) || (softSwitchHeat[ELEMCONTROL_BKIN] == SOFTSWITCH_AUTO)) ? SOFTSWITCH_ON : SOFTSWITCH_OFF;
+    softSwitchHeat[ELEMCONTROL_HLTIN] = SOFTSWITCH_OFF;
+  }
+  else if (inputs_auto & (1 << i)) { //Switch Set to HLT
+    softSwitchPv[ELEMCONTROL_HLTOUT] = ((softSwitchHeat[ELEMCONTROL_HLTIN] == SOFTSWITCH_ON) || (softSwitchHeat[ELEMCONTROL_HLTIN] == SOFTSWITCH_AUTO)) ? SOFTSWITCH_ON : SOFTSWITCH_OFF;
+    softSwitchPv[ELEMCONTROL_DUALOUT] = SOFTSWITCH_ON;
+    softSwitchPv[ELEMCONTROL_BKOUT] = SOFTSWITCH_OFF; 
+    softSwitchHeat[ELEMCONTROL_BKIN] = SOFTSWITCH_OFF;
+  }
+  else { //Switch set to Auto
+    softSwitchPv[ELEMCONTROL_DUALOUT] = SOFTSWITCH_OFF;
+    softSwitchPv[ELEMCONTROL_HLTOUT] = ((softSwitchHeat[ELEMCONTROL_HLTIN] == SOFTSWITCH_ON) || (softSwitchHeat[ELEMCONTROL_HLTIN] == SOFTSWITCH_AUTO)) ? SOFTSWITCH_ON : SOFTSWITCH_OFF;
+    softSwitchPv[ELEMCONTROL_BKOUT] = ((softSwitchHeat[ELEMCONTROL_BKIN] == SOFTSWITCH_ON) || (softSwitchHeat[ELEMCONTROL_BKIN] == SOFTSWITCH_AUTO)) ? SOFTSWITCH_ON : SOFTSWITCH_OFF;
   }
   
   // Update any assigned outputs
