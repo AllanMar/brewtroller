@@ -146,6 +146,8 @@ const char CHILLNORM[] PROGMEM = "Chill Both";
   
   const char PIDCYCLE[] PROGMEM = " PID Cycle";
   const char PIDGAIN[] PROGMEM = " PID Gain";
+  const char PIDGAIN1[] PROGMEM = "PID";
+  const char PIDGAIN2[] PROGMEM = "Gain";
   const char HYSTERESIS[] PROGMEM = " Hysteresis";
   
   #ifdef PID_FLOW_CONTROL
@@ -2367,9 +2369,9 @@ void cfgOutputs() {
 }
 
 void setPIDGain(char sTitle[], byte vessel) {
-  byte retP = pid[vessel].GetP_Param();
-  byte retI = pid[vessel].GetI_Param();
-  byte retD = pid[vessel].GetD_Param();
+  int retP = pid[vessel].GetP_Param()*PIDGAIN_DIV;
+  int retI = pid[vessel].GetI_Param()*PIDGAIN_DIV;
+  int retD = pid[vessel].GetD_Param()*PIDGAIN_DIV;
   byte cursorPos = 0; //0 = p, 1 = i, 2 = d, 3 = OK
   boolean cursorState = 0; //0 = Unselected, 1 = Selected
   Encoder.setMin(0);
@@ -2377,9 +2379,14 @@ void setPIDGain(char sTitle[], byte vessel) {
   Encoder.setCount(0);
   
   LCD.clear();
-  LCD.print(0,0,sTitle);
-  LCD.print_P(1, 0, PSTR("P:     I:     D:    "));
-  LCD.print_P(3, 8, OK);
+  LCD.print(0, 0, sTitle);
+  LCD.print_P(1, 0, PIDGAIN1);
+  LCD.print_P(2, 0, PIDGAIN2);
+  LCD.print_P(0, 8, PSTR("P:"));
+  LCD.print_P(1, 8, PSTR("I:"));
+  LCD.print_P(2, 8, PSTR("D:"));
+  LCD.print_P(3, 9, OK);
+  
   boolean redraw = 1;
   while(1) {
     int encValue;
@@ -2396,34 +2403,45 @@ void setPIDGain(char sTitle[], byte vessel) {
       } else {
         cursorPos = encValue;
         if (cursorPos == 0) {
-          LCD.print_P(1, 2, PSTR(">"));
-          LCD.print_P(1, 9, PSTR(" "));
-          LCD.print_P(1, 16, PSTR(" "));
-          LCD.print_P(3, 7, PSTR(" "));
-          LCD.print_P(3, 10, PSTR(" "));
+          LCD.print_P(0, 10, GREATERTHAN);
+          LCD.print_P(1, 10, SPACE);
+          LCD.print_P(2, 10, SPACE);
+          LCD.print_P(3, 8, SPACE);
+          LCD.print_P(3, 11, SPACE);
         } else if (cursorPos == 1) {
-          LCD.print_P(1, 2, PSTR(" "));
-          LCD.print_P(1, 9, PSTR(">"));
-          LCD.print_P(1, 16, PSTR(" "));
-          LCD.print_P(3, 7, PSTR(" "));
-          LCD.print_P(3, 10, PSTR(" "));
+          LCD.print_P(0, 10, SPACE);
+          LCD.print_P(1, 10, GREATERTHAN);
+          LCD.print_P(2, 10, SPACE);
+          LCD.print_P(3, 8, SPACE);
+          LCD.print_P(3, 11, SPACE);
         } else if (cursorPos == 2) {
-          LCD.print_P(1, 2, PSTR(" "));
-          LCD.print_P(1, 9, PSTR(" "));
-          LCD.print_P(1, 16, PSTR(">"));
-          LCD.print_P(3, 7, PSTR(" "));
-          LCD.print_P(3, 10, PSTR(" "));
+          LCD.print_P(0, 10, SPACE);
+          LCD.print_P(1, 10, SPACE);
+          LCD.print_P(2, 10, GREATERTHAN);
+          LCD.print_P(3, 8, SPACE);
+          LCD.print_P(3, 11, SPACE);
         } else if (cursorPos == 3) {
-          LCD.print_P(1, 2, PSTR(" "));
-          LCD.print_P(1, 9, PSTR(" "));
-          LCD.print_P(1, 16, PSTR(" "));
-          LCD.print_P(3, 7, PSTR(">"));
-          LCD.print_P(3, 10, PSTR("<"));
+          LCD.print_P(0, 10, SPACE);
+          LCD.print_P(1, 10, SPACE);
+          LCD.print_P(2, 10, SPACE);
+          LCD.print_P(3, 8, GREATERTHAN);
+          LCD.print_P(3, 11, LESSTHAN);
         }
       }
-      LCD.lPad(1, 3, itoa(retP, buf, 10), 3, ' ');
-      LCD.lPad(1, 10, itoa(retI, buf, 10), 3, ' ');
-      LCD.lPad(1, 17, itoa(retD, buf, 10), 3, ' ');
+      //P Gain
+      vftoa(retP, buf, 10, 1);
+      truncFloat(buf, 5);
+      LCD.lPad(0, 11, buf, 5, ' ');
+      
+      //I Gain
+      vftoa(retI, buf, 10, 1);
+      truncFloat(buf, 5);
+      LCD.lPad(1, 11, buf, 5, ' ');
+
+      //D Gain
+      vftoa(retD, buf, 10, 1);
+      truncFloat(buf, 5);
+      LCD.lPad(2, 11, buf, 5, ' ');
     }
     if (Encoder.ok()) {
       if (cursorPos == 3) {
@@ -2438,7 +2456,7 @@ void setPIDGain(char sTitle[], byte vessel) {
       cursorState = cursorState ^ 1;
       if (cursorState) {
         Encoder.setMin(0);
-        Encoder.setMax(255);
+        Encoder.setMax(PIDGAIN_MAX);
         if (cursorPos == 0) Encoder.setCount(retP);
         else if (cursorPos == 1) Encoder.setCount(retI);
         else if (cursorPos == 2) Encoder.setCount(retD);
