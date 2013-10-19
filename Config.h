@@ -211,9 +211,9 @@ static const byte TS = 1;
 // during preheat.
 
 #define SMART_HERMS_HLT
-#define MASH_HEAT_LOSS 2
+#define MASH_HEAT_LOSS 2.2
 #define HLT_MAX_TEMP 180
-//#define SMART_HERMS_PREHEAT
+#define SMART_HERMS_PREHEAT
 //**********************************************************************************
 
 //**********************************************************************************
@@ -437,7 +437,7 @@ static const byte TS = 1;
 // calculating a vessel's volume
 //
 #define VOLUME_READ_INTERVAL 200
-#define VOLUME_READ_COUNT 5
+#define VOLUME_READ_COUNT 20
 //**********************************************************************************
 
 //**********************************************************************************
@@ -447,7 +447,7 @@ static const byte TS = 1;
 // volume changes over a specified interval
 // FLOWRATE_READ_INTERVAL: Time in ms between flowrate calculation updates
 //
-//#define FLOWRATE_CALCS
+#define FLOWRATE_CALCS
 #define FLOWRATE_READ_INTERVAL 1000
 //**********************************************************************************
 
