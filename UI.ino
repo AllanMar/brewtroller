@@ -52,6 +52,9 @@ const char MENU[] PROGMEM = "Menu";
 const char SPACE[] PROGMEM = " ";
 const char INIT_EEPROM[] PROGMEM = "Initialize EEPROM";
 const char CONTINUE[] PROGMEM = "Continue";
+const char LESSTHAN[] PROGMEM = "<";
+const char GREATERTHAN[] PROGMEM = ">";
+const char THREEDASH[] PROGMEM = "---";
 
 prog_char FILLHLT[] PROGMEM = "Fill HLT";
 prog_char FILLMASH[] PROGMEM = "Fill Mash";
@@ -400,8 +403,8 @@ void screenInit() {
     LCD.lPad(1, 15, buf, 5, ' ');
 
     if (screenLock) {
-      LCD.print_P(3, 0, PSTR(">"));
-      LCD.print_P(3, 10, PSTR("<"));
+      LCD.print_P(3, 0, GREATERTHAN);
+      LCD.print_P(3, 10, LESSTHAN);
       LCD.print_P(3, 1, CONTINUE);
       Encoder.setMin(0);
       Encoder.setMax(5);
@@ -460,9 +463,9 @@ void screenInit() {
     LCD.print_P(1, 1, PSTR("HLT"));
     LCD.print_P(2, 1, PSTR("Mash"));
     LCD.print_P(3, 1, PSTR("Kettle"));
-    LCD.print_P(1, 8, PSTR("---"));
-    LCD.print_P(2, 8, PSTR("---"));
-    LCD.print_P(3, 8, PSTR("---"));
+    LCD.print_P(1, 8, THREEDASH);
+    LCD.print_P(2, 8, THREEDASH);
+    LCD.print_P(3, 8, THREEDASH);
     LCD.print_P(1, 14, PSTR("--.---"));
     LCD.print_P(2, 14, PSTR("--.---"));
     LCD.print_P(3, 14, PSTR("--.---"));
@@ -471,8 +474,8 @@ void screenInit() {
     LCD.print_P(3, 12, TUNIT);
 
     if (screenLock) {
-      LCD.print_P(0, 8, PSTR(">"));
-      LCD.print_P(0, 19, PSTR("<"));
+      LCD.print_P(0, 8, GREATERTHAN);
+      LCD.print_P(0, 19, LESSTHAN);
       LCD.print_P(0, 10, CONTINUE);
       Encoder.setMin(0);
       Encoder.setMax(7);
@@ -509,8 +512,8 @@ void screenInit() {
     LCD.print_P(2, 19, TUNIT);
     
     if (screenLock) {
-      LCD.print_P(3, 0, PSTR(">"));
-      LCD.print_P(3, 11, PSTR("<"));
+      LCD.print_P(3, 0, GREATERTHAN);
+      LCD.print_P(3, 11, LESSTHAN);
       LCD.print_P(3, 2, CONTINUE);
       Encoder.setMin(0);
       Encoder.setMax(6);
@@ -754,10 +757,10 @@ void screenRefresh() {
         else if (encValue == 6) LCD.print_P(3, 3, ABORT);
       }
     }
-    if (temp[TS_KETTLE] == BAD_TEMP) LCD.print_P(1, 11, PSTR("---")); else LCD.lPad(1, 11, itoa(temp[TS_KETTLE] / 100, buf, 10), 3, ' ');
-    if (temp[TS_BEEROUT] == BAD_TEMP) LCD.print_P(2, 11, PSTR("---")); else LCD.lPad(2, 11, itoa(temp[TS_BEEROUT] / 100, buf, 10), 3, ' ');
-    if (temp[TS_H2OIN] == BAD_TEMP) LCD.print_P(1, 16, PSTR("---")); else LCD.lPad(1, 16, itoa(temp[TS_H2OIN] / 100, buf, 10), 3, ' ');
-    if (temp[TS_H2OOUT] == BAD_TEMP) LCD.print_P(2, 16, PSTR("---")); else LCD.lPad(2, 16, itoa(temp[TS_H2OOUT] / 100, buf, 10), 3, ' ');
+    if (temp[TS_KETTLE] == BAD_TEMP) LCD.print_P(1, 11, THREEDASH); else LCD.lPad(1, 11, itoa(temp[TS_KETTLE] / 100, buf, 10), 3, ' ');
+    if (temp[TS_BEEROUT] == BAD_TEMP) LCD.print_P(2, 11, THREEDASH); else LCD.lPad(2, 11, itoa(temp[TS_BEEROUT] / 100, buf, 10), 3, ' ');
+    if (temp[TS_H2OIN] == BAD_TEMP) LCD.print_P(1, 16, THREEDASH); else LCD.lPad(1, 16, itoa(temp[TS_H2OIN] / 100, buf, 10), 3, ' ');
+    if (temp[TS_H2OOUT] == BAD_TEMP) LCD.print_P(2, 16, THREEDASH); else LCD.lPad(2, 16, itoa(temp[TS_H2OOUT] / 100, buf, 10), 3, ' ');
     if (vlvConfigIsActive(VLV_CHILLBEER)) LCD.print_P(3, 12, PSTR(" On")); else LCD.print_P(3, 12, PSTR("Off"));
     if (vlvConfigIsActive(VLV_CHILLH2O)) LCD.print_P(3, 17, PSTR(" On")); else LCD.print_P(3, 17, PSTR("Off"));
 
@@ -1582,8 +1585,8 @@ void drawMenu(char sTitle[], menu *objMenu) {
 }
 
 byte getChoice(menu *objMenu, byte iRow) {
-  LCD.print_P(iRow, 0, PSTR(">"));
-  LCD.print_P(iRow, 19, PSTR("<"));
+  LCD.print_P(iRow, 0, GREATERTHAN);
+  LCD.print_P(iRow, 19, LESSTHAN);
   Encoder.setMin(0);
   Encoder.setMax(objMenu->getItemCount() - 1);
   Encoder.setCount(0);
@@ -2235,7 +2238,7 @@ void assignSensor() {
 void displayAssignSensorTemp(int sensor) {
   LCD.print_P(3, 10, TUNIT); 
   if (temp[sensor] == BAD_TEMP) {
-    LCD.print_P(3, 7, PSTR("---"));
+    LCD.print_P(3, 7, THREEDASH);
   } else {
     LCD.lPad(3, 7, itoa(temp[sensor] / 100, buf, 10), 3, ' ');
   }
@@ -2675,23 +2678,23 @@ void volCalibEntryMenu(byte vessel, byte entry) {
           LCD.print(2, i - firstBit + 1, buf);
         }
   
-        if (firstBit > 0) LCD.print_P(2, 0, PSTR("<")); else LCD.print_P(2, 0, PSTR(" "));
-        if (firstBit + 18 < encMax - 1) LCD.print_P(2, 19, PSTR(">")); else LCD.print_P(2, 19, PSTR(" "));
+        if (firstBit > 0) LCD.print_P(2, 0, LESSTHAN); else LCD.print_P(2, 0, SPACE);
+        if (firstBit + 18 < encMax - 1) LCD.print_P(2, 19, GREATERTHAN); else LCD.print_P(2, 19, SPACE);
         if (encValue == encMax - 1) {
-          LCD.print_P(3, 2, PSTR(">"));
-          LCD.print_P(3, 7, PSTR("<"));
-          LCD.print_P(3, 12, PSTR(" "));
-          LCD.print_P(3, 17, PSTR(" "));
+          LCD.print_P(3, 2, GREATERTHAN);
+          LCD.print_P(3, 7, LESSTHAN);
+          LCD.print_P(3, 12, SPACE);
+          LCD.print_P(3, 17, SPACE);
         } else if (encValue == encMax) {
-          LCD.print_P(3, 2, PSTR(" "));
-          LCD.print_P(3, 7, PSTR(" "));
-          LCD.print_P(3, 12, PSTR(">"));
-          LCD.print_P(3, 17, PSTR("<"));
+          LCD.print_P(3, 2, SPACE);
+          LCD.print_P(3, 7, SPACE);
+          LCD.print_P(3, 12, GREATERTHAN);
+          LCD.print_P(3, 17, LESSTHAN);
         } else {
-          LCD.print_P(3, 2, PSTR(" "));
-          LCD.print_P(3, 7, PSTR(" "));
-          LCD.print_P(3, 12, PSTR(" "));
-          LCD.print_P(3, 17, PSTR(" "));
+          LCD.print_P(3, 2, SPACE);
+          LCD.print_P(3, 7, SPACE);
+          LCD.print_P(3, 12, SPACE);
+          LCD.print_P(3, 17, SPACE);
           LCD.print_P(2, encValue - firstBit + 1, PSTR("^"));
         }
       }
@@ -2882,26 +2885,26 @@ const uint8_t ku8MBResponseTimedOut           = 0xE2;
           }
         } else {
           cursorPos = encValue;
-          LCD.print_P(1, 12, PSTR(" "));
-          LCD.print_P(1, 16, PSTR(" "));
-          LCD.print_P(2, 12, PSTR(" "));
-          LCD.print_P(2, 16, PSTR(" "));
-          LCD.print_P(3, 0, PSTR(" "));
-          LCD.print_P(3, 7, PSTR(" "));
-          LCD.print_P(3, 14, PSTR(" "));
-          LCD.print_P(3, 19, PSTR(" "));
+          LCD.print_P(1, 12, SPACE);
+          LCD.print_P(1, 16, SPACE);
+          LCD.print_P(2, 12, SPACE);
+          LCD.print_P(2, 16, SPACE);
+          LCD.print_P(3, 0, SPACE);
+          LCD.print_P(3, 7, SPACE);
+          LCD.print_P(3, 14, SPACE);
+          LCD.print_P(3, 19, SPACE);
           if (cursorPos == 0) {
-            LCD.print_P(1, 12, PSTR(">"));
-            LCD.print_P(1, 16, PSTR("<"));
+            LCD.print_P(1, 12, GREATERTHAN);
+            LCD.print_P(1, 16, LESSTHAN);
           } else if (cursorPos == 1) {
-            LCD.print_P(2, 12, PSTR(">"));
-            LCD.print_P(2, 16, PSTR("<"));
+            LCD.print_P(2, 12, GREATERTHAN);
+            LCD.print_P(2, 16, LESSTHAN);
           } else if (cursorPos == 2) {
-            LCD.print_P(3, 0, PSTR(">"));
-            LCD.print_P(3, 7, PSTR("<"));
+            LCD.print_P(3, 0, GREATERTHAN);
+            LCD.print_P(3, 7, LESSTHAN);
           } else if (cursorPos == 3) {
-            LCD.print_P(3, 14, PSTR(">"));
-            LCD.print_P(3, 19, PSTR("<"));
+            LCD.print_P(3, 14, GREATERTHAN);
+            LCD.print_P(3, 19, LESSTHAN);
           }
         }
         LCD.lPad(1, 13, itoa(bright, buf, 10), 3, ' ');
@@ -2944,7 +2947,7 @@ const uint8_t ku8MBResponseTimedOut           = 0xE2;
       triggerMenu.setItem_P(PSTR("HLT Min: "), 2);
       triggerMenu.setItem_P(PSTR("Mash Min: "), 3);
       triggerMenu.setItem_P(PSTR("Kettle Min: "), 4);
-      triggerMenu.setItem_P(PSTR("Exit"), 255);
+      triggerMenu.setItem_P(EXIT, 255);
       for (byte i = 0; i < 5; i++) {
         if (getTriggerPin(i)) triggerMenu.appendItem(itoa(getTriggerPin(i), buf, 10), i);
         else triggerMenu.appendItem_P(PSTR("None"), i);
