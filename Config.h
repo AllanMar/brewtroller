@@ -211,7 +211,7 @@ static const byte TS = 1;
 // during preheat.
 
 #define SMART_HERMS_HLT
-#define MASH_HEAT_LOSS 2.2
+#define MASH_HEAT_LOSS 1.5
 #define HLT_MAX_TEMP 180
 #define SMART_HERMS_PREHEAT
 //**********************************************************************************
