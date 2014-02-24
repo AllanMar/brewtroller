@@ -66,7 +66,7 @@
 // water temperature on dedicated HEX vessel during preheat. After preheat the
 // actual mash temperature sensor would be used to control the mash heat output.
 // aka 'Yorg Option 1'
-#define MASH_PREHEAT_SENSOR TS_AUX1
+//#define MASH_PREHEAT_SENSOR TS_AUX1
 
 // MASH_PREHEAT_STRIKE/MASH_PREHEAT_STEP1: Use one of the following two options to
 // override the zero setpoint for the mash tun when the 'Heat Strike In' program 
@@ -434,7 +434,7 @@ static const byte TS = 1;
 // VOLUME_READ_COUNT: Number of individual volume readings to average when 
 // calculating a vessel's volume
 //
-#define VOLUME_READ_INTERVAL 100
+#define VOLUME_READ_INTERVAL 200
 #define VOLUME_READ_COUNT 20
 //**********************************************************************************
 
