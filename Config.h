@@ -66,7 +66,7 @@
 // water temperature on dedicated HEX vessel during preheat. After preheat the
 // actual mash temperature sensor would be used to control the mash heat output.
 // aka 'Yorg Option 1'
-//#define MASH_PREHEAT_SENSOR TS_AUX1
+#define MASH_PREHEAT_SENSOR TS_AUX1
 
 // MASH_PREHEAT_STRIKE/MASH_PREHEAT_STEP1: Use one of the following two options to
 // override the zero setpoint for the mash tun when the 'Heat Strike In' program 
@@ -233,7 +233,7 @@ static const byte TS = 1;
 //**********************************************************************************
 // MASH_AVG_AUXx: Uncomment one or more of the following lines to include averaging
 // of AUX1, AUX2 and/or AUX3 temp sensors with mash temp sensor.
-//#define MASH_AVG_AUX1
+#define MASH_AVG_AUX1
 //#define MASH_AVG_AUX2
 //#define MASH_AVG_AUX3
 //**********************************************************************************
