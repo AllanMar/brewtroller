@@ -484,7 +484,7 @@ static const byte TS = 1;
 // USE CAUTION! TESTING REQUIRED.
 //
 #define HLT_MIN_REFILL
-#define HLT_MIN_REFILL_VOL 8000
+#define HLT_MIN_REFILL_VOL 10000
 //**********************************************************************************
 
 
