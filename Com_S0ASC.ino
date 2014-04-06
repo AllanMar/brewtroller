@@ -59,6 +59,11 @@ void logFieldI (unsigned long value) {
   Serial.print("\t");
 }
 
+void logFieldSI (long value) {
+  Serial.print(value, DEC);
+  Serial.print("\t");
+}
+
 void logField_P (const char *sText) {
   while (pgm_read_byte(sText) != 0) Serial.print(pgm_read_byte(sText++));
   Serial.print("\t");

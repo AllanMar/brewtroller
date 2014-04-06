@@ -277,6 +277,7 @@ private:
   void logField(char*);
   void logField_P(const char*);
   void logFieldI(unsigned long);
+  void logFieldSI(long);
   void logEnd(void);
   void logStepPrg(void);
   int getCmdIndex(void);
@@ -365,7 +366,7 @@ void BTnic::execCmd(void) {
         logFieldI(tgtVol[vessel]);
         logFieldI(volAvg[vessel]);
         #ifdef FLOWRATE_CALCS
-          logFieldI(flowRate[vessel]);
+          logFieldSI(flowRate[vessel]);
         #else
           logFieldI(0);
         #endif
@@ -746,7 +747,7 @@ void BTnic::execCmd(void) {
       logFieldCmd(CMD_VOL, cmdIndex);
       logFieldI(volAvg[cmdIndex]);
       #ifdef FLOWRATE_CALCS
-        logFieldI(flowRate[cmdIndex]);
+        logFieldSI(flowRate[cmdIndex]);
       #else
         logFieldI(0);
       #endif
@@ -762,7 +763,7 @@ void BTnic::execCmd(void) {
     case CMD_STEAM:  //r
       logFieldCmd(CMD_STEAM, NO_CMDINDEX);
       #ifdef PID_FLOW_CONTROL
-        logFieldI(flowRate[VS_MASH]);
+        logFieldSI(flowRate[VS_MASH]);
       #else
         logFieldI(steamPressure);  
       #endif
@@ -862,6 +863,11 @@ void BTnic::logField_P(const char *string) {
 void BTnic::logFieldI(unsigned long param) {
   char tmpbuf[11];
   ultoa(param, tmpbuf, 10);
+  logField(tmpbuf);
+}
+void BTnic::logFieldSI(long param) {
+  char tmpbuf[12];
+  ltoa(param, tmpbuf, 10);
   logField(tmpbuf);
 }
   
