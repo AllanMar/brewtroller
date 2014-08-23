@@ -637,28 +637,32 @@ void screenRefresh() {
 
   } else if (activeScreen == SCREEN_SPARGE) {
     //Refresh Screen: Sparge
-    #ifdef VOLUME_MANUAL
+    #ifdef VOLUME_MANUAL_HLT
       // In manual volume mode show the target volumes instead of the current volumes
       vftoa(tgtVol[VS_HLT], buf, 1000, 1);
       truncFloat(buf, 6);
       LCD.lPad(1, 14, buf, 6, ' ');
-        
-      vftoa(tgtVol[VS_MASH], buf, 1000, 1);
-      truncFloat(buf, 6);
-      LCD.lPad(2, 14, buf, 6, ' ');
-        
-      vftoa(tgtVol[VS_KETTLE], buf, 1000, 1);
-      truncFloat(buf, 6);
-      LCD.lPad(3, 14, buf, 6, ' ');
     #else
       vftoa(volAvg[VS_HLT], buf, 1000, 1);
       truncFloat(buf, 6);
       LCD.lPad(1, 14, buf, 6, ' ');
-        
+    #endif
+    
+    #ifdef VOLUME_MANUAL_MT
+      vftoa(tgtVol[VS_MASH], buf, 1000, 1);
+      truncFloat(buf, 6);
+      LCD.lPad(2, 14, buf, 6, ' ');
+    #else
       vftoa(volAvg[VS_MASH], buf, 1000, 1);
       truncFloat(buf, 6);
       LCD.lPad(2, 14, buf, 6, ' ');
-        
+    #endif
+    
+    #ifdef VOLUME_MANUAL_BK
+      vftoa(tgtVol[VS_KETTLE], buf, 1000, 1);
+      truncFloat(buf, 6);
+      LCD.lPad(3, 14, buf, 6, ' ');
+    #else
       vftoa(volAvg[VS_KETTLE], buf, 1000, 1);
       truncFloat(buf, 6);
       LCD.lPad(3, 14, buf, 6, ' ');
