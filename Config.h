@@ -358,11 +358,6 @@ static const byte TS = 1;
 // volumes have been reached.
 //#define AUTO_FILL_EXIT
 
-// AUTO_PREHEAT_EXIT: By default the user must manually exit the Preheat step.
-// This prevents the strike water from cooling if the brewer is not present at the
-// end of preheat. Use this option to automatically exit preheat if desired.
-//#define AUTO_PREHEAT_EXIT
-
 // AUTO_ML_XFER: This option will enable the Sparge In AutoValve logic at the start
 // of the Grain In step if the Mash Liquor Heat Source is set to HLT. This is used
 // to transfer preheated mash liquor from HLT to Mash Tun.
@@ -452,21 +447,8 @@ static const byte TS = 1;
 //**********************************************************************************
 
 
-//**********************************************************************************
-// RS485/Modbus Configuration
-//**********************************************************************************
-  #define RS485_BAUDRATE    76800
-  #define RS485_PARITY      SERIAL_8E1
-  
-  #define PVOUT_MODBUS_MAXBOARDS     4
-  #define PVOUT_MODBUS_DEFCOILREG    1000
-  #define PVOUT_MODBUS_DEFCOILCOUNT  8
-  #define PVOUT_MODBUS_BASEADDR      10
-  #define PVOUT_MODBUS_ADDRNONE 255
-  #define PVOUT_MODBUS_ADDRINIT 247
-  #define PVOUT_MODBUS_REGIDMODE 9000
-  #define PVOUT_MODBUS_REGSLAVEADDR 9001
-  #define PVOUT_MODBUS_REGRESTART 9002
+
+
 
 /***********************************************************************************
  * EXPERIMENTAL OPTIONS
@@ -647,6 +629,37 @@ static const byte TS = 1;
 #define RGBIO8_NUM_BOARDS 1
 //
 //**********************************************************************************
+
+
+//**********************************************************************************
+// DEBUG
+//**********************************************************************************
+//#define DEBUG
+// DEBUG_TEMP_CONV_T: Enables logging of OneWire temperature sensor ADC time.
+//#define DEBUG_TEMP_CONV_T
+
+// DEBUG_VOL_READ: Enables logging of additional detail used in calculating volume.
+//#define DEBUG_VOL_READ
+
+// DEBUG_PID_GAIN: Enables logging of PID Gain settings as they are set.
+//#define DEBUG_PID_GAIN
+
+// DEBUG_TIMERALARM: Enables logging of Timer and Alarm values
+//#define DEBUG_TIMERALARM
+
+// DEBUG_VOLCALIB: Enables logging of Volume Calibration values
+//#define DEBUG_VOLCALIB
+
+// DEBUG_PROG_CALC_VOLS: Enables logging of PreBoil, Sparge, and Total water calcs 
+// based on the running program
+//#define DEBUG_PROG_CALC_VOLS
+
+//#define DEBUG_BTNIC
+
+//**********************************************************************************
+
+#define PIDGAIN_MAX 7000
+#define PIDGAIN_DIV 10
 
 #endif
 
