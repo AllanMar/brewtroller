@@ -223,7 +223,7 @@ static const byte TS = 1;
 // mash tun.
 // Value may be positive or negative. Decimal values are allowed.
 
-#define STRIKE_TEMP_OFFSET 0
+#define STRIKE_TEMP_OFFSET -3
 
 //**********************************************************************************
 
