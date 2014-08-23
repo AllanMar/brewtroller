@@ -125,17 +125,16 @@ void loadSetup() {
   #endif
   
 
+  //**********************************************************************************
+  //Step (313-327) NUM_BREW_STEPS (15)
+  //**********************************************************************************
+  for(byte brewStep = 0; brewStep < NUM_BREW_STEPS; brewStep++) stepInit(EEPROM.read(313 + brewStep), brewStep);
 
   //**********************************************************************************
   //401-480 Valve Profiles
   //**********************************************************************************
   #ifdef PVOUT
     loadVlvConfigs();
-  
-    #ifdef PVOUT_TYPE_MODBUS
-      for (byte i = 0; i < PVOUT_MODBUS_MAXBOARDS; i++) 
-        loadVlvModbus(i);
-    #endif
   #endif
 }
 
@@ -143,18 +142,6 @@ void loadSetup() {
   void loadVlvConfigs() {
     eeprom_read_block(&vlvConfig, (unsigned char *) 401, 80);
   }
-  
-  #ifdef PVOUT_TYPE_MODBUS
-    void loadVlvModbus(byte board) {
-      if (ValvesMB[board]) {
-        delete ValvesMB[board];
-        ValvesMB[board] = NULL;
-      }
-      byte addr = getVlvModbusAddr(board);
-      if (addr != PVOUT_MODBUS_ADDRNONE)
-        ValvesMB[board] = new PVOutMODBUS(addr, getVlvModbusReg(board), getVlvModbusCoilCount(board), getVlvModbusOffset(board));
-    }
-  #endif 
 #endif
 
 //*****************************************************************************************************************************
@@ -200,7 +187,7 @@ void setPIDEnabled(byte vessel, boolean setting) {
   EEPROM.write(72, options);
 }
 
-
+/*
 //**********************************************************************************
 //PIDp HLT (73), Mash (78), Kettle (83), Steam (88)
 //**********************************************************************************
@@ -227,7 +214,7 @@ void setPIDd(byte vessel, byte value) {
   EEPROM.write(75 + vessel * 5, value);
 }
 byte getPIDd(byte vessel) { return EEPROM.read(75 + vessel * 5); }
-
+*/
 //**********************************************************************************
 //PIDCycle HLT (76), Mash (81), Kettle (86), Steam (91)
 //**********************************************************************************
@@ -418,19 +405,15 @@ void setBoilAddsTrig(unsigned int adds) { EEPROMwriteInt(307, adds); }
 
 
 //**********************************************************************************
-//Program Threads (313-316)
+//Step (313-327) NUM_BREW_STEPS (15)
 //**********************************************************************************
-
-void eepromLoadProgramThread(byte index, struct ProgramThread *thread) {
-  eeprom_read_block((void *) thread, (unsigned char *) 313 + index * sizeof(struct ProgramThread), sizeof(struct ProgramThread));
-}
-
-void eepromSaveProgramThread(byte index, struct ProgramThread *thread) {
-  eeprom_write_block((void *) thread, (unsigned char *) 313 + index * sizeof(struct ProgramThread), sizeof(struct ProgramThread));
+void setProgramStep(byte brewStep, byte actPgm) {
+  stepProgram[brewStep] = actPgm;
+  EEPROM.write(313 + brewStep, actPgm); 
 }
 
 //**********************************************************************************
-// ***OPEN*** (317-397)
+//Reserved (328-397)
 //**********************************************************************************
 
 //**********************************************************************************
@@ -570,7 +553,7 @@ unsigned long getProgGrain(byte preset) { return EEPROMreadLong(PROGRAM_START_AD
 //**********************************************************************************
 
 //**********************************************************************************
-//Trigger Pins (2050-2054) ATMEGA1284P Only  +Reserved: 2055-2064
+//Trigger Pins (2050-2054) ATMEGA1284P Only
 //**********************************************************************************
 #ifdef DIGITAL_INPUTS
   byte getTriggerPin(byte triggerIndex) {
@@ -588,53 +571,34 @@ unsigned long getProgGrain(byte preset) { return EEPROMreadLong(PROGRAM_START_AD
     #endif
   }
 #endif
-
+  
+//**********************************************************************************
+//PIDp HLT (2055-2056), Mash (2061-2062), Kettle (2067-2068), Steam (2073-2074)
+//**********************************************************************************
+void setPIDp(byte vessel, int value) {
+  pid[vessel].SetTunings((double)value/PIDGAIN_DIV, pid[vessel].GetI_Param(), pid[vessel].GetD_Param());
+  EEPROMwriteInt(2055 + vessel * 6, value);
+}
+int getPIDp(byte vessel) { return EEPROMreadInt(2055 + vessel * 6); }
 
 //**********************************************************************************
-//Modbus Relay Boards (2065-2074) ATMEGA1284P Only + Reserved: 2075-2084 
+//PIDi HLT (2057-2058), Mash (2063-2064), Kettle (2069-2070), Steam (2075-2076)
 //**********************************************************************************
-byte getVlvModbusAddr(byte board) {
-  return EEPROM.read(board * 5);
+void setPIDi(byte vessel, int value) {
+  pid[vessel].SetTunings(pid[vessel].GetP_Param(), (double)value/PIDGAIN_DIV, pid[vessel].GetD_Param());
+  EEPROMwriteInt(2057 + vessel * 6, value);
 }
+int getPIDi(byte vessel) { return EEPROMreadInt(2057 + vessel * 6); }
 
-unsigned int getVlvModbusReg(byte board) {
-  return EEPROMreadInt(board * 5 + 1);
+//**********************************************************************************
+//PIDd HLT (2059-2060), Mash (2065-2066), Kettle (2071-2072), Steam (2077-2078)
+//**********************************************************************************
+void setPIDd(byte vessel, int value) {
+  pid[vessel].SetTunings(pid[vessel].GetP_Param(), pid[vessel].GetI_Param(), (double)value/PIDGAIN_DIV);
+  EEPROMwriteInt(2059 + vessel * 6, value);
 }
+int getPIDd(byte vessel) { return EEPROMreadInt(2059 + vessel * 6); }
 
-byte getVlvModbusCoilCount(byte board) {
-  return EEPROM.read(board * 5 + 3);
-}
-
-byte getVlvModbusOffset(byte board) {
-  return EEPROM.read(board * 5 + 4);
-}
-
-void setVlvModbusAddr(byte board, byte addr) {
-  EEPROM.write(board * 5, addr);
-}
-
-void setVlvModbusReg(byte board, unsigned int reg) {
-  EEPROMwriteInt(board * 5 + 1, reg);
-}
-
-void setVlvModbusCoilCount(byte board, byte count) {
-  EEPROM.write(board * 5 + 3, count);
-}
-
-void setVlvModbusOffset(byte board, byte offset) {
-  EEPROM.write(board * 5 + 4, offset);
-}
-
-void setVlvModbusDefaults(byte board) {
-  setVlvModbusAddr(board, PVOUT_MODBUS_ADDRNONE);
-  setVlvModbusReg(board, PVOUT_MODBUS_DEFCOILREG);
-  setVlvModbusCoilCount(board, PVOUT_MODBUS_DEFCOILCOUNT);
-  byte defaultOffset = PVOUT_COUNT;
-  if (board)
-    for (byte i = 0; i < board; i++)
-      defaultOffset += getVlvModbusOffset(board);
-  setVlvModbusOffset(board, defaultOffset);
-}
 
 //*****************************************************************************************************************************
 // Check/Update/Format EEPROM
@@ -666,9 +630,13 @@ boolean checkConfig() {
       //Set triggers to disabled by default
       for (byte trig = 0; trig < NUM_TRIGGERS; trig++) EEPROM.write(2050 + trig, 0);
       EEPROM.write(2047, 2);
-    case 2:
-      for (byte i = 0; i < PVOUT_MODBUS_MAXBOARDS; i++)
-        setVlvModbusDefaults(i);
+    case 3:
+      //Move PID Gains to new 16bit Location and *10.
+      for (byte vessel = VS_HLT; vessel <= VS_STEAM; vessel++) {
+        EEPROMwriteInt(2055 + vessel * 6, EEPROM.read(73 + vessel * 5) * PIDGAIN_DIV); //P Gain
+        EEPROMwriteInt(2057 + vessel * 6, EEPROM.read(74 + vessel * 5) * PIDGAIN_DIV); //I Gain
+        EEPROMwriteInt(2059 + vessel * 6, EEPROM.read(75 + vessel * 5) * PIDGAIN_DIV); //D Gain
+      }
       EEPROM.write(2047, 3);
   }
   return 0;
@@ -717,13 +685,8 @@ void initEEPROM() {
   setBoilPwr(100);
 
   //Set all steps idle
-  for (byte i = 0; i < PROGRAMTHREAD_MAX; i++) {
-    struct ProgramThread thread;
-    thread.activeStep = BREWSTEP_NONE;
-    thread.recipe = RECIPE_NONE;
-    eepromSaveProgramThread(i, &thread);
-  }
-  
+  for (byte i = 0; i < NUM_BREW_STEPS; i++) setProgramStep(i, PROGRAM_IDLE);
+
   //Set default LCD Bright/Contrast
   #if (defined __AVR_ATmega1284P__ || defined __AVR_ATmega1284__) && defined UI_DISPLAY_SETUP && defined UI_LCD_4BIT
     EEPROM.write(2048, LCD_DEFAULT_BRIGHTNESS);
@@ -733,8 +696,9 @@ void initEEPROM() {
   //Set cfgVersion = 0
   EEPROM.write(2047, 0);
 
-  //restart
-  softReset();
+  // re-load Setup 
+  loadSetup();
+  LCD.init();
 }
 
 //*****************************************************************************************************************************
