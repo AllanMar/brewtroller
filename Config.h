@@ -363,6 +363,9 @@ static const byte TS = 1;
 // to transfer preheated mash liquor from HLT to Mash Tun.
 //#define AUTO_ML_XFER
 
+// AUTO_PREHEAT_EXIT: this option will automatically exit the PreHeat step once the temperature reaches the setpoint(s).
+//#define AUTO_PREHEAT_EXIT
+
 // AUTO_GRAININ_EXIT: This option will automatically exit the Grain In step after
 // the specified number of seconds. Use this setting if your grain is automatically 
 // added to the mash tun using the Add Grain valve profile. You can also specify a
