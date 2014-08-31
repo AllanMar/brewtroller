@@ -819,9 +819,14 @@ void BTnic::logStepPrg() {
   for (byte i = 0; i < PROGRAMTHREAD_MAX; i++) {
     logFieldI(programThreadActiveStep(i));
     char pName[20];
-    programThreadRecipeName(i, pName);
+    pName[0] = '\0';
+    byte rIndex = RECIPE_NONE;
+    if (programThreadActiveStep(i) != BREWSTEP_NONE) {
+      programThreadRecipeName(i, pName);
+      rIndex = programThreadRecipeIndex(i);
+    }
     logField(pName);
-    logFieldI(programThreadRecipeIndex(i));
+    logFieldI(rIndex);
   }
 }
   
