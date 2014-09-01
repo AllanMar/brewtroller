@@ -211,7 +211,7 @@ static const byte TS = 1;
 // during preheat.
 
 #define SMART_HERMS_HLT
-#define MASH_HEAT_LOSS 1.5
+#define MASH_HEAT_LOSS 2.3
 #define HLT_MAX_TEMP 180
 #define SMART_HERMS_PREHEAT
 //**********************************************************************************
@@ -223,7 +223,7 @@ static const byte TS = 1;
 // mash tun.
 // Value may be positive or negative. Decimal values are allowed.
 
-#define STRIKE_TEMP_OFFSET -3
+#define STRIKE_TEMP_OFFSET -2
 
 //**********************************************************************************
 
