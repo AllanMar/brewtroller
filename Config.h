@@ -27,10 +27,10 @@
 // logic to be enabled during preheat. By default, a recipe's HLT Temp setting is used
 // during preheat.
 
-//#define SMART_HERMS_HLT
-#define MASH_HEAT_LOSS 0
+#define SMART_HERMS_HLT
+#define MASH_HEAT_LOSS 2.6
 #define HLT_MAX_TEMP 180
-//#define SMART_HERMS_PREHEAT
+#define SMART_HERMS_PREHEAT
 //**********************************************************************************
 
 
@@ -53,7 +53,7 @@
 //**********************************************************************************
 // MASH_AVG_AUXx: Uncomment one or more of the following lines to include averaging
 // of AUX1, AUX2 and/or AUX3 temp sensors with mash temp sensor.
-//#define MASH_AVG_AUX1
+#define MASH_AVG_AUX1
 //#define MASH_AVG_AUX2
 //#define MASH_AVG_AUX3
 //**********************************************************************************
@@ -103,7 +103,7 @@
 // calculating a vessel's volume
 //
 #define VOLUME_READ_INTERVAL 200
-#define VOLUME_READ_COUNT 5
+#define VOLUME_READ_COUNT 20
 //**********************************************************************************
 
 //**********************************************************************************
