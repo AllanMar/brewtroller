@@ -50,6 +50,16 @@ void resetVesselHeat(byte vessel) {
 }
 
 void updatePIDHeat(byte vessel) {
+	//If output is disabled, or forced on set PID mode to manual.
+	switch (outputs->getOutputStatus(getPWMPin(vessel))) {
+		case OUTPUTSTATUS_DISABLED:
+		case OUTPUTSTATUS_FORCED:
+			pid[vessel].SetMode(MANUAL); 
+			break;
+		default:
+			pid[vessel].SetMode(AUTO);
+			break;
+	}
 	//Do not compute PID for kettle if boil control is not in setpoint mode. Temp sensor check can cause power loss recovery problems in manual mode.
 	if (vessel != VS_KETTLE || boilControlState == CONTROLSTATE_SETPOINT) {
 		if (temp[vessel] == BAD_TEMP)
