@@ -73,6 +73,7 @@
     OUTPUTPROFILE_BTNIC = OUTPUTPROFILE_USERCOUNT,    //Dymanic profile used by BTNIC logic to turn on outputs (not implemented)
     OUTPUTPROFILE_RGBIO,                              //Dymanic profile used by RGBIO logic to turn on outputs
     OUTPUTPROFILE_SYSTEMTEST,                         //Used to test output profiles
+	OUTPUTPROFILE_ELEMSOFTSW,						  //Used for element select control
     OUTPUTPROFILE_SYSTEMCOUNT
   };
   
@@ -82,6 +83,7 @@
     OUTPUTENABLE_RGBIO,          //Used by RGBIO logic to force off specific outputs
     OUTPUTENABLE_TRIGGER,        //Used by vessel minimum volume and triggers to disable specific outputs
     OUTPUTENABLE_SYSTEMTEST,     //Used to test output profiles by forcing off outputs not in the mask being tested
+	OUTPUTENABLE_ELEMSOFTSW,	 //Used for element select control
     OUTPUTENABLE_COUNT
   };
 
