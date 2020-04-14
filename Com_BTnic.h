@@ -433,9 +433,9 @@ void BTnic::execCmd(void) {
         logFieldI(getPIDi(cmdIndex));
         logFieldI(getPIDd(cmdIndex));
         logFieldI(vessel->getHysteresis());
-		logFieldI(vessel->getPid()->GetInput()*100);
-		logFieldI(vessel->getPid()->GetOutput()*100);
-		logFieldI(vessel->getPid()->GetSetpoint()*100);
+		logFieldI(vessel->getPID()->GetInput()*100);
+		logFieldI(vessel->getPID()->GetOutput()*100);
+		logFieldI(vessel->getPID()->GetSetpoint()*100);
         logFieldI(0);
         logFieldI(0);
       }
