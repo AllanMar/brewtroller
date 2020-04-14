@@ -188,6 +188,11 @@ void PID::SetControllerDirection(int Direction)
 double PID::GetKp(){ return  dispKp; }
 double PID::GetKi(){ return  dispKi;}
 double PID::GetKd(){ return  dispKd;}
+
+double PID::GetInput(){ return  *myInput; }
+double PID::GetSetpoint(){ return  *mySetpoint; }
+double PID::GetOutput(){ return  *myOutput; }
+
 int PID::GetMode(){ return  inAuto ? AUTOMATIC : MANUAL;}
 int PID::GetDirection(){ return controllerDirection;}
 
