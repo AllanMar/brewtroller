@@ -53,7 +53,7 @@
 //**********************************************************************************
 // MASH_AVG_AUXx: Uncomment one or more of the following lines to include averaging
 // of AUX1, AUX2 and/or AUX3 temp sensors with mash temp sensor.
-#define MASH_AVG_AUX1
+//#define MASH_AVG_AUX1
 //#define MASH_AVG_AUX2
 //#define MASH_AVG_AUX3
 //**********************************************************************************
