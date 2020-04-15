@@ -156,6 +156,7 @@ class analogOutput {
   double getValue();
   virtual void init();
   virtual void update() = 0;
+  virtual OutputStatus getOutputStatus();
 };
 
 class analogOutput_SWPWM : public analogOutput {
@@ -169,6 +170,7 @@ class analogOutput_SWPWM : public analogOutput {
   analogOutput_SWPWM(byte index, unsigned int period);
   ~analogOutput_SWPWM(void);
   void setValue(double v);
+  OutputStatus getOutputStatus();
   void update();
   static void setup(OutputSystem* o);
 };

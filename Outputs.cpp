@@ -439,6 +439,10 @@ Documentation, Forums and more information available at http://www.brewtroller.c
     analogOutput_SWPWM::outputs = o;
   }
   
+  OutputStatus analogOutput_SWPWM::getOutputStatus() {
+    return outputs->getOutputStatus(pinIndex);
+  }
+  
   void analogOutput_SWPWM::setValue(double v) {
     //Transition from inactive to active
     if (!value && v) { sPeriod = millis(); }

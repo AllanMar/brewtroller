@@ -138,7 +138,7 @@ void Vessel::updatePIDHeat(void) {
   if (!pwmOutput)
     return;
 
-  if (!setpoint)
+  if (!setpoint || pwmOutput->getOutputStatus() == OUTPUTSTATUS_DISABLED) //Check if output is disabled for some reason and avoid calculating PID.
     pwmOutput->setValue(0);
   else {
     if (pid->GetMode() == AUTOMATIC
