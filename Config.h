@@ -28,7 +28,7 @@
 // during preheat.
 
 #define SMART_HERMS_HLT
-#define MASH_HEAT_LOSS 2.6
+#define MASH_HEAT_LOSS 2.2
 #define HLT_MAX_TEMP 180
 #define SMART_HERMS_PREHEAT
 //**********************************************************************************
